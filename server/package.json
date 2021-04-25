@@ -1,0 +1,25 @@
+{
+  "name": "stocks-api",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "This fetches stocks data from the alphavantage api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "Ignacio N Aguirre",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "create-react-app": "^4.0.1",
+    "cron": "^1.7.2",
+    "dotenv": "^8.2.0",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "node-fetch": "^2.6.0",
+    "ws": "^7.4.3"
+  }
+}

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:400,300,500,700"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <title>Bitstamp live trades example</title>
+    <style>
+      body {
+        font-family: "Roboto", sans-serif;
+      }
+
+      h1 {
+        font-size: 30px;
+        width: 500px;
+        color: #666;
+        margin: 0 auto 20px auto;
+      }
+
+      #trades_placeholder {
+        width: 500px;
+        margin: 0 auto;
+      }
+
+      #trades_placeholder > div {
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Bitstamp live trades</h1>
+    <div id="trades_placeholder">waiting for some trades to happen...</div>
+    <script type="text/javascript">
+      var placeholder = document.getElementById("trades_placeholder"),
+        child = null,
+        i = 0;
+
+      /**
+       * This var is an example of subscription message. By changing its event property to: "bts:unsubscribe"
+       * you can delete your subscription and stop receiving events.
+       */
+      var subscribeMsg = {
+        event: "bts:subscribe",
+        data: {
+          channel: "live_trades_btcusd",
+        },
+      };
+      /**
+       * Execute a websocket handshake by sending an HTTP upgrade header.
+       */
+      var ws;
+      initWebsocket();
+
+      /**
+       * Serializes a trade when it's received.
+       */
+      function serializeTrade(data) {
+        console.log({ data });
+        if (i === 0) {
+          placeholder.innerHTML = "";
+        }
+        child = document.createElement("div");
+        child.innerHTML =
+          "(" +
+          data.timestamp +
+          ") " +
+          data.id +
+          ": " +
+          data.amount +
+          " BTC @ " +
+          data.price +
+          " USD " +
+          data.type;
+        placeholder.appendChild(child);
+        i++;
+      }
+
+      function initWebsocket() {
+        ws = new WebSocket("wss://ws.bitstamp.net");
+
+        ws.onopen = function () {
+          ws.send(JSON.stringify(subscribeMsg));
+        };
+
+        ws.onmessage = function (evt) {
+          response = JSON.parse(evt.data);
+          /**
+           * This switch statement handles message logic. It processes data in case of trade event
+           * and it reconnects if the server requires.
+           */
+          switch (response.event) {
+            case "trade": {
+              serializeTrade(response.data);
+              break;
+            }
+            case "bts:request_reconnect": {
+              initWebsocket();
+              break;
+            }
+          }
+        };
+        /**
+         * In case of unexpected close event, try to reconnect.
+         */
+        ws.onclose = function () {
+          console.log("Websocket connection closed");
+          initWebsocket();
+        };
+      }
+    </script>
+  </body>
+</html>

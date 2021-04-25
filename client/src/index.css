@@ -1,0 +1,218 @@
+body {
+  background-color: black;
+  color: white;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.main-body {
+  display: grid;
+  grid-template-columns: 200px auto;
+  gap: 10px;
+  margin: 10px;
+  text-align: center;
+}
+.main-body > div {
+  padding: 5px;
+  box-shadow: rgb(255 255 255 / 40%) 1px 1px 4px 2px;
+  background-color: rgba(50, 50, 50, 0.5);
+}
+#tooltipData {
+  position: absolute;
+  bottom: 15px;
+  right: calc(50% - 100px);
+  transform: translate(50%, 0);
+  display: none;
+  /* background: rgba(100, 100, 100, 0.1);
+  border: 1px solid rgba(100, 100, 100, 0.2); */
+  font-size: 12px;
+  width: calc(100vw - 400px);
+}
+#closeTT {
+  display: none;
+  top: 0px;
+  right: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+#tooltipData > div {
+  padding: 4px;
+}
+#tooltipData > div > div {
+  display: inline-block;
+  padding: 0 5px;
+}
+#tooltipData > div:first-child {
+  border-bottom: solid 1px;
+  background-color: rgba(200, 200, 200, 0.2);
+  /* display: block; */
+  display: none;
+}
+
+#closeTT:hover {
+  color: #fd6838;
+}
+line.tempX,
+line.tempY,
+.grid line {
+  stroke: lightgrey;
+  stroke-opacity: 0.2;
+  shape-rendering: crispEdges;
+  stroke-dasharray: 5, 5;
+}
+.grid path {
+  stroke-width: 0;
+}
+line.tempX,
+line.tempY {
+  stroke-opacity: 1;
+}
+text.tempX,
+text.tempY {
+  fill: white;
+  font-size: 11px;
+}
+.bar-width {
+  margin: auto;
+  height: 20px;
+  width: 20px;
+  line-height: 0.7;
+  font-size: 20px;
+  border-radius: 50%;
+  box-shadow: 0 1px 1px 1px white;
+  cursor: pointer;
+}
+.bar-width:hover {
+  color: rgb(77, 212, 77);
+  box-shadow: 0 1px 1px 1px rgb(77, 212, 77);
+}
+.break-even {
+  fill: rgb(68, 202, 255);
+}
+.my-buy {
+  fill: rgb(68, 202, 255);
+  stroke-opacity: 1;
+  stroke: rgb(68, 202, 255);
+  stroke-dasharray: 5, 5;
+}
+svg {
+  cursor: crosshair;
+}
+
+#liveTradesContainer > div::-webkit-scrollbar {
+  width: 4px;
+}
+
+#liveTradesContainer > div::-webkit-scrollbar-thumb {
+  background: rgb(140, 182, 221);
+  border-radius: 2px;
+}
+
+#liveTradesContainer {
+  margin-top: 10px;
+  max-height: calc(100vh - 160px);
+  display: grid;
+  grid-gap: 5px;
+  grid-template-rows: 1fr 1fr;
+  font-size: 11px;
+}
+#liveTradesContainer > div {
+  border: solid 1px rgba(255, 255, 255, 0.1);
+  overflow: auto;
+}
+#liveTradesContainer > div > div:first-child {
+  display: block;
+  text-align: center;
+  font-weight: bold;
+}
+#liveTradesContainer > div > div:first-child,
+#liveTradesContainer > div > div:nth-child(2) {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+#liveTradesContainer > div > div {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  border-bottom: solid 1px rgba(255, 255, 255, 0.2);
+}
+#liveTradesContainer > div > div > div {
+  border-right: solid 1px rgba(255, 255, 255, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#liveTradesContainer > div .buy {
+  color: #77e15e;
+}
+#liveTradesContainer > div .buy.isNew {
+  animation: buyFade 1s forwards;
+}
+#liveTradesContainer > div .sell {
+  color: #fd6838;
+}
+#liveTradesContainer > div .sell.isNew {
+  animation: sellFade 1s forwards;
+}
+#liveTradesContainer > div .timestamp {
+  font-size: 10px;
+}
+@keyframes buyFade {
+  0% {
+    background-color: rgba(0, 200, 0, 0.4);
+  }
+  100% {
+    background-color: rgba(0, 200, 0, 0);
+  }
+}
+@keyframes sellFade {
+  0% {
+    background-color: rgba(255, 0, 0, 0.4);
+  }
+  100% {
+    background-color: rgba(255, 0, 0, 0);
+  }
+}
+
+.statsOuter {
+  margin: 0 auto;
+  width: fit-content;
+}
+.stats {
+  display: flex;
+  margin: 2px 2px 2px auto;
+  text-align: center;
+  width: fit-content;
+  border: solid 1px rgba(255, 255, 255, 0.2);
+}
+.stats > div:first-child {
+  background: rgba(255, 255, 255, 0.1);
+}
+.stats > div:not(:last-child) {
+  border-right: solid 1px rgba(255, 255, 255, 0.2);
+  padding: 0px 4px;
+}
+.stats > div > span {
+  margin: 0 2px;
+}
+
+#compareButton {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 14px;;
+  padding: 0px 3px;
+  box-shadow: 0 0 3px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+#compareButton:hover {
+  box-shadow: 0 0 6px;
+}
